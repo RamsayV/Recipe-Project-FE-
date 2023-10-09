@@ -7,6 +7,7 @@ import SingleRecipe from '../components/Project/SingleRecipe'
 import SingleContributor from '../components/Project/SingleContributor'
 import AllRecipes from '../components/Project/AllRecipes'
 import NavVue from '../components/Project/NavVue.vue'
+import RecipeApi from '../components/Project/RecipeApi'
 import LoginForm from '../components/auth/Login'
 
 const routes = [
@@ -55,6 +56,11 @@ const routes = [
     name: 'LoginForm',
     path: '/login',
     component: LoginForm
+},
+{
+    name: 'RecipeApi',
+    path: '/RecipeCreator',
+    component: RecipeApi
 },
 
 ]

@@ -62,13 +62,13 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #050505; /* Set your desired background color */
+  background-color: #e9e1e1; /* Set your desired background color */
   padding: 10px;
 }
 
 .nav-link {
   background-color: #ff8c42; /* Set your desired background color for links */
-  color: #fffdfd; /* Set the text color for links */
+  color: white; /* Set the text color for links */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
