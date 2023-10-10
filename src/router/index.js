@@ -9,6 +9,8 @@ import AllRecipes from '../components/Project/AllRecipes'
 import NavVue from '../components/Project/NavVue.vue'
 import RecipeApi from '../components/Project/RecipeApi'
 import LoginForm from '../components/auth/Login'
+import RecipesByCuisine from '../components/Project/RecipesByCuisine'
+import MealPlanApi from '../components/Project/MealPlanApi'
 
 const routes = [
 
@@ -62,6 +64,17 @@ const routes = [
     path: '/RecipeCreator',
     component: RecipeApi
 },
+{
+    name: 'MealPlanApi',
+    path: '/MealPlanApi',
+    component: MealPlanApi
+},
+{
+    
+    name: 'RecipesByCuisine',
+    path: '/recipesbycuisine',
+    component: RecipesByCuisine,
+  },
 
 ]
 

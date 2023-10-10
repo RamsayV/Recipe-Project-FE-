@@ -1,10 +1,20 @@
 <template>
     <div class="recipes-container">
       <h1 class="page-title">Recipes</h1>
+      <div>
+        <label for="cuisinefilter"> Filter By Cuisine</label>
+        <select id="cuisinefilter" v-model="selectedcuisine">
+        <option value="">All Cuisines</option>
+        <option v-for="cuisine in uniquecuisines" :key="cuisine" :value="cuisine">{{ cuisine }}</option>
+        </select>
+        <div v-for="recipe in filteredrecipes" :key="recipe.id">
+        <h3>{{ recipe.title }}</h3>
+        </div>
+      </div>
       <div class="recipe-list">
         <div v-for="recipe in recipes" :key="recipe._id" class="recipe-item">
           <router-link :to="'/AllRecipes/' + recipe._id" class="recipe-link">
-            <h1 class="recipe-title">{{ recipe.title }}</h1>
+            <h1 class="recipe-title">{{ recipe.title}}</h1>
           </router-link>
         </div>
       </div>
@@ -17,6 +27,7 @@
     data: () => ({
       error: '',
       recipes: [],
+      selectedcuisine: ''
     }),
     mounted() {
       fetch('http://localhost:4000/Allrecipes')
@@ -28,6 +39,18 @@
           this.error = 'Error fetching data: ' + error;
         });
     },
+    computed: {
+      uniquecuisines(){
+        return Array.from(new Set(this.recipes.map(recipe => recipe.cuisine)))
+      },
+      filteredrecipes(){
+        if(this.selectedcuisine){
+          return this.recipes.filter(recipe => recipe.cuisine === this.selectedcuisine)
+        }else{
+          return this.recipes
+        }
+      }
+    }
   };
   </script>
   

@@ -1,6 +1,7 @@
 <template>
   <div class="template-container">
     <h1>Create A Recipe!</h1>
+    <p><input v-model="recipe.cuisine" type="text" placeholder="Recipe cuisine"><br></p>
     <p><input v-model="recipe.title" type="text" placeholder="Recipe Title"><br></p>
     <p><textarea v-model="recipe.ingredients" placeholder="Ingredients"></textarea><br></p>
     <p><textarea v-model="recipe.instructions" placeholder="Method"></textarea><br></p>
@@ -15,24 +16,36 @@
 </template>
 
 <script>
+import { decodeCredential} from 'vue3-google-login';
 export default {
   name: 'AddRecipe',
   data: () => ({
     error: '',
     recipe: {
+      cuisine: '',
       title: '',
       ingredients: '',
       instructions: '',
       date: '',
       contributor: '',
-      imageURL: '' // Add imageURL to the recipe object
+      imageURL: '' ,
+      userEmail: '',
+      
     }
   }),
+  mounted() {
+      if (this.$cookies.isKey('user_session')) {
+        this.isLoggedIn = true;
+        const userData = decodeCredential(this.$cookies.get('user_session'));
+        this.userName = userData.given_name;
+        this.userEmail = userData.email
+      }
+    },
   methods: {
   AddRecipe: function () {
     
 
-    console.log(`New recipe ${this.recipe.title} - ${this.recipe.ingredients} - ${this.recipe.instructions} - ${this.recipe.date} - ${this.recipe.contributor} - ${this.recipe.imageURL}`);
+    console.log(`New recipe ${this.recipe.cuisine} - ${this.recipe.title} - ${this.recipe.ingredients} - ${this.recipe.instructions} - ${this.recipe.date} - ${this.recipe.contributor} - ${this.recipe.imageURL}`);
     
     fetch('http://localhost:4000/AddRecipe', {
       method: "POST",
@@ -40,16 +53,19 @@ export default {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        cuisine: this.recipe.cuisine,
         title: this.recipe.title,
         ingredients: this.recipe.ingredients,
         instructions: this.recipe.instructions,
         date: this.recipe.date,
         contributor: this.recipe.contributor,
-        image: this.recipe.imageURL
+        image: this.recipe.imageURL,
+        email: this.userEmail
       })
     })
     .then(res => {
       console.log(res.status)
+      this.recipe.cuisine = ''
       this.recipe.title = ''
       this.recipe.ingredients = ''
       this.recipe.instructions = ''

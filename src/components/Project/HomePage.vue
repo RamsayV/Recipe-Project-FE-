@@ -5,6 +5,7 @@
     <p><button><router-link :to="'/AllContributors'">User Profiles</router-link></button></p>
     <p><button><router-link :to="'/addrecipe'">Add Recipe</router-link></button></p>
     <p><button><router-link :to="'/recipecreator'">What's in your Fridge?</router-link></button></p>
+    <p><button><router-link :to="'/MealPlanApi'">Customise Your Weekly Meal Plans!</router-link></button></p>
 </template>
 <script>
 

@@ -1,4 +1,5 @@
 <template>
+  <div>
     <div>
       <h1>Recipe Builder</h1>
       <form @submit.prevent="searchRecipes">
@@ -9,46 +10,87 @@
       <!-- Display recipes here -->
     </div>
     <div>
-    <ul v-if="recipes.length > 0">
-      <li v-for="recipe in recipes" :key="recipe.id">
-        <h2>{{ recipe.title }}</h2>
-        <img :src="recipe.image"  alt="Recipe Image" >
-        <p>Ingredients you have: {{ recipe.usedIngredientCount}}</p>
-        <p> Ingredients you need to buy: {{ recipe.missedIngredientCount }}</p>
-      </li>
-    </ul>
-    <p v-else>No recipes found.</p>
+      <ul v-if="recipes.length > 0">
+        <li v-for="recipe in recipes" :key="recipe.id">
+          <!-- Add a click event handler to the recipe title to fetch recipe information -->
+          <h2 @click="fetchRecipeInformation(recipe.id)">{{ recipe.title }}</h2>
+          <img :src="recipe.image" alt="Recipe Image">
+          <p>Ingredients you have: {{ recipe.usedIngredientCount }}</p>
+          <p>Ingredients you need to buy: {{ recipe.missedIngredientCount }}</p>
+        </li>
+      </ul>
+      <p v-else>No recipes found.</p>
+    </div>
+    <div v-if="selectedRecipe">
+      <h2>{{ selectedRecipe.title }}</h2>
+      <p>Instructions:</p>
+      <p>{{ selectedRecipe.instructions }}</p>
+      <p>Ingredients:</p>
+      <ul>
+        <li v-for="step in selectedRecipe.analyzedInstructions[0].steps" :key="step.number">
+          {{ step.step }}
+          <ul>
+            <li v-for="ingredient in step.ingredients" :key="ingredient.id">
+              {{ ingredient.name }}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
   </div>
-  </template>
-  <script>
-  export default {
-    data() {
-      return {
-        ingredientInput: '',
-        recipes: [],
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      ingredientInput: '',
+      recipes: [],
+      selectedRecipe: null,
+    };
+  },
+  methods: {
+    async searchRecipes() {
+      const apiUrl = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${encodeURIComponent(this.ingredientInput)}&number=5&ignorePantry=true&ranking=1`;
+
+      const headers = {
+        'X-RapidAPI-Key': '8f8641a7c6msh0e089e319a502cep174f40jsn27b4a9b3976c',
+        'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
       };
+
+      try {
+        const response = await fetch(apiUrl, { method: 'GET', headers });
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
+        }
+        const result = await response.json();
+        this.recipes = result;
+      } catch (error) {
+        console.error(error);
+      }
     },
-    methods: {
-      async searchRecipes() {
-        const apiUrl = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${encodeURIComponent(this.ingredientInput)}&number=5&ignorePantry=true&ranking=1`;
-  
-        const headers = {
+    async fetchRecipeInformation(recipeId) {
+      const url = `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipeId}/information`;
+      const options = {
+        method: 'GET',
+        headers: {
           'X-RapidAPI-Key': '8f8641a7c6msh0e089e319a502cep174f40jsn27b4a9b3976c',
           'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com',
-        };
-  
-        try {
-          const response = await fetch(apiUrl, { method: 'GET', headers });
-          if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
-          }
-          const result = await response.json();
-          this.recipes = result;
-        } catch (error) {
-          console.error(error);
+        },
+      };
+
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          throw new Error(`API request failed with status ${response.status}`);
         }
-      },
+        const result = await response.json();
+        this.selectedRecipe = result; // Assign the detailed recipe information
+      } catch (error) {
+        console.error(error);
+      }
     },
-  };
-  </script>
+  }
+}
+</script>
   

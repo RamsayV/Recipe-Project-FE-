@@ -1,3 +1,5 @@
+
+
 <template>
   <div class="recipe-card">
     <h1 class="page-title">Recipe</h1>
@@ -10,27 +12,37 @@
         <h1 class="contributor-name">{{ recipes?.contributor?.name }}</h1>
       </router-link>
     </div>
-    <div class="recipe-actions">
+    <div v-if="recipes?.recipe?.user === userEmail" class="recipe-actions">
       <button @click="deleteRecipe" class="btn btn-danger">Delete Recipe</button>
       <router-link :to="`/recipe/edit/${id}`" class="edit-link">
         <button class="btn btn-primary">Edit Recipe</button>
       </router-link>
     </div>
-  </div>
+      <div v-if="isLoggedIn">
+      <button @click="share">Share Recipe </button>
+    </div>
+    </div>
 </template>
 
 <script>
 import { useRoute } from 'vue-router';
-
+import { decodeCredential} from 'vue3-google-login';
 export default {
   name: 'SingleRecipe',
   data: () => ({
     error: '',
     recipes: {},
     id: '',
-    
+    userName: '',
+    userEmail: '',
   }),
   mounted() {
+    if (this.$cookies.isKey('user_session')) {
+        this.isLoggedIn = true;
+        const userData = decodeCredential(this.$cookies.get('user_session'));
+        this.userName = userData.given_name;
+        this.userEmail= userData.email
+      }
     const route = useRoute();
     fetch(`http://localhost:4000/AllRecipes/${route.params.id}`)
       .then((response) => response.json())
@@ -46,7 +58,7 @@ export default {
       });
   },
   methods: {
-    deleteRecipe: function () {
+     deleteRecipe: function () {
       console.log(this.id);
       fetch(`http://localhost:4000/AllRecipes/${this.id}`, {
         method: "DELETE"
@@ -54,9 +66,20 @@ export default {
         .then(() => {
           this.$router.replace({ name: 'AllRecipes' });
         });
-    }
+    },
+    share : function () {
+  if (navigator.share) {
+    navigator.share ({
+      text: "Checkout this recipe! It's perfect for us.",
+      url: '',
+      title: 'Recipe Real'
+    })
+  } else {
+    navigator.clipboard.writeText('url')
   }
-};
+  }
+}
+}
 </script>
 
 <style scoped>
