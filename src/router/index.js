@@ -12,6 +12,7 @@ import LoginForm from '../components/auth/Login'
 import RecipesByCuisine from '../components/Project/RecipesByCuisine'
 import MealPlanApi from '../components/Project/MealPlanApi'
 
+
 const routes = [
 
 {
@@ -75,6 +76,7 @@ const routes = [
     path: '/recipesbycuisine',
     component: RecipesByCuisine,
   },
+
 
 ]
 

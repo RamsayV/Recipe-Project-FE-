@@ -20,7 +20,12 @@
     name: 'UserProfile',
     data: () => ({
       error: '',
-      data: {},
+      data: {
+        contributor:{
+          name: '',
+          _id: '',
+        }
+      },
     }),
     mounted() {
       const route = useRoute();
