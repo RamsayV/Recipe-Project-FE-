@@ -1,39 +1,42 @@
 <template>
-  <head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"></head>
-    <div class="recipe-card">
-    <h1 class="page-title">Recipe</h1>
-    <div class="recipe-details">
-      <h1 class="recipe-title">{{ recipes?.recipe?.title }}</h1>
-      <div class="recipe-ingredients">
-        <h2>Ingredients:</h2>
-        <ul>
-          <li v-for="(ingredient, index) in splitIngredients" :key="index">
-            {{ ingredient }}
-          </li>
-        </ul>
+    <head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"></head>
+      <div class="recipe-card">
+      <h1 class="page-title">Recipe</h1>
+      <div class="recipe-details">
+        <h1 class="recipe-title">{{ recipes?.recipe?.title }}</h1>
+        <div class="recipe-ingredients">
+          <h2>Ingredients:</h2>
+          <ul>
+            <li v-for="(ingredient, index) in splitIngredients" :key="index">
+              {{ ingredient }}
+            </li>
+          </ul>
+        </div>
+        <div class="recipe-instructions">
+          <h2>Instructions:</h2>
+          <ol>
+            <li v-for="(instruction, index) in splitInstructions" :key="index">
+              {{ instruction }}
+            </li>
+          </ol>
+        </div>
+        <img class="recipe-image" :src="recipes?.contributor?.recipes[0]?.image" alt="Recipe Image">
+        <router-link :to="'/AllContributors/' + recipes?.contributor?._id" class="contributor-link">
+          <h1 class="contributor-name">{{ recipes?.contributor?.name }}</h1>
+        </router-link>
       </div>
-      <div class="recipe-instructions">
-        <h2>Instructions:</h2>
-        <ol>
-          <li v-for="(instruction, index) in splitInstructions" :key="index">
-            {{ instruction }}
-          </li>
-        </ol>
+      <div class="button-container">
+      <div v-if="recipes?.recipe?.user === userEmail" class="recipe-actions">
+        <button @click="deleteRecipe" class="common-btn btn-danger">Delete Recipe</button>
+        <router-link :to="`/recipe/edit/${id}`" class="edit-link">
+          <button class="common-btn btn-primary">Edit Recipe</button>
+        </router-link>
+        <router-link :to="`/AllRecipes/:id/addreview`" class="review-link">
+          <button class="btn btn-primary">Review Recipe</button>
+        </router-link>
       </div>
-      <img class="recipe-image" :src="recipes?.contributor?.recipes[0]?.image" alt="Recipe Image">
-      <router-link :to="'/AllContributors/' + recipes?.contributor?._id" class="contributor-link">
-        <h1 class="contributor-name">{{ recipes?.contributor?.name }}</h1>
-      </router-link>
     </div>
-    <div class="button-container">
-    <div v-if="recipes?.recipe?.user === userEmail" class="recipe-actions">
-      <button @click="deleteRecipe" class="common-btn btn-danger">Delete Recipe</button>
-      <router-link :to="`/recipe/edit/${id}`" class="edit-link">
-        <button class="common-btn btn-primary">Edit Recipe</button>
-      </router-link>
-    </div>
-  </div>
-  </div>
+</div>
 </template>
 <script>
 import { useRoute } from 'vue-router';
@@ -47,6 +50,16 @@ export default {
     userName: '',
     userEmail: '',
   }),
+  computed: {
+    splitInstructions() {
+      const instructions = this.recipes?.recipe?.instructions || '';
+      return instructions.split(/\d+\./).filter(item => item.trim() !== '');
+    },
+    splitIngredients() {
+      const ingredients = this.recipes?.recipe?.ingredients || '';
+      return ingredients.split('\n').filter(item => item.trim() !== '');
+    }
+  },
   mounted() {
     if (this.$cookies.isKey('user_session')) {
       this.isLoggedIn = true;
@@ -54,24 +67,29 @@ export default {
       this.userName = userData.given_name;
       this.userEmail = userData.email;
     }
-    const route = useRoute ()
+    const route = useRoute();
+    if (this.$cookies.isKey('user_session')) {
+      this.isLoggedIn = true;
+      const userData = decodeCredential(this.$cookies.get('user_session'));
+      this.userName = userData.given_name;
+      this.userEmail = userData.email
+    }
     console.log(route.params.id);
-    fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
+    fetch(`${VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
       .then((response) => response.json())
       // console.log('something');})
       .then((result) => {
         this.recipes = result;
         this.id = route.params.id;
-      })
+    })
       .catch((error) => {
         this.error = 'Error fetching data: ' + error;
         console.log(this.error);
       });
   },
   methods: {
-    
     deleteRecipe: function () {
-      fetch(`http://localhost:4000/AllRecipes/${this.id}`, {
+      fetch(`${VUE_APP_BACKEND_API}/AllRecipes/${this.id}`, {
         method: "DELETE"
       })
         .then(() => {
@@ -87,21 +105,11 @@ export default {
         });
       } else {
         navigator.clipboard.writeText('url');
-      }
-    },
-    computed: {
-    splitInstructions() {
-      const instructions = this.recipes?.recipe?.instructions || '';
-      return instructions.split(/\d+\./).filter(item => item.trim() !== '');
-    },
-    splitIngredients() {
-      const ingredients = this.recipes?.recipe?.ingredients || '';
-      return ingredients.split('\n').filter(item => item.trim() !== '');
+
+    }
     }
   }
 }
-}
-
 </script>
 
 <style scoped>
@@ -227,8 +235,6 @@ h1 {
   max-width: 100%;
   border-radius: 10px;
   margin-top: 20px;
-
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
 }
 </style>
