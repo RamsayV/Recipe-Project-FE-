@@ -42,55 +42,66 @@
   </script>
   
   <style scoped>
-  /* User Profile Styles */
-  .user-profile {
-    text-align: center;
-    padding: 20px;
-    background-color: #f5f5f5; /* Set your desired background color */
-  }
-  
-  .page-title {
-    font-size: 28px;
-    color: #ff8c42; /* Set title color */
-    margin-bottom: 20px;
-  }
-  
-  .profile-info {
-    background-color: #fff; /* Set profile info background color */
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .user-name {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .recipe-section-title {
-    font-size: 20px;
-    margin-top: 20px;
-  }
-  
-  /* Recipe List Styles */
-  .recipe-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .recipe-item {
-    margin: 10px 0;
-  }
-  
-  .recipe-link {
-    color: #ff8c42; /* Set link color */
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-  }
-  
-  .recipe-link:hover {
-    color: #ff6b0f; /* Set hover color */
-  }
-  </style>
+/* User Profile Styles */
+.user-profile {
+  text-align: center;
+  padding: 20px;
+  background-color: #ffebcd; /* Creamy background color */
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 2.5em;
+  color: #ff7f50; /* Coral color */
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+  background-color: #ffffff; 
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); 
+  display: inline-block;
+  max-width: 500px;
+  width: 100%;
+}
+
+.user-name {
+  font-size: 2em;
+  color: #ff7f50; /* Coral color */
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-section-title {
+  font-size: 1.75em;
+  color: #ff7f50; /* Coral color */
+  margin-top: 20px;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Recipe List Styles */
+.recipe-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.recipe-item {
+  margin: 15px 0;
+}
+
+.recipe-link {
+  color: #ff7f50; /* Coral color */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.25em;
+  transition: color 0.3s;
+}
+
+.recipe-link:hover {
+  color: #e46d45; /* Darker Coral on hover */
+}
+</style>

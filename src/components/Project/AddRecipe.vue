@@ -1,4 +1,5 @@
 <template>
+  <head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"></head>
   <div class="template-container">
     <h1>Create A Recipe!</h1>
     <p><input v-model="recipe.cuisine" type="text" placeholder="Recipe cuisine"><br></p>
@@ -9,9 +10,10 @@
     <p><input v-model="recipe.contributor" type="text" placeholder="User Profile"><br></p>
     <p><input v-model="recipe.imageURL" type="text" placeholder="Image URL"><br></p>
     <img :src="recipe.imageURL" alt="Recipe Image">
-    <p><button v-on:click="AddRecipe">Add a Recipe!</button></p>
-    <p><router-link :to="'/AllRecipes'" class="router-link">Show All Recipes</router-link></p>
-    <p><router-link :to="'/'" class="router-link">Home</router-link></p>
+    <div class="buttons-container">
+      <button v-on:click="AddRecipe">Add a Recipe!</button>
+      <router-link :to="'/AllRecipes'" class="router-link">Show All Recipes</router-link>
+    </div>
   </div>
 </template>
 
@@ -79,100 +81,98 @@ export default {
 
 </script>
 <style scoped>
+
+body {
+  background-color: #e1ab47; /* Darker cream/wheat background color */
+  margin: 0; /* Remove default margin */
+  font-family: 'Poppins', sans-serif; /* Consistent font family */
+  color: #333; /* General text color */
+}
+
+.template-container {
+  background-color: #ffebcd; /* Cream background color */
+  padding: 30px;
+  font-family: 'Poppins', sans-serif;
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Style */
 h1 {
-  font-family: 'Georgia', serif;
-  font-size: 36px;
-  color: #e74c3c; /* Reddish color */
-  text-align: center;
+  font-size: 2.5em;
+  color: #ff7f50; /* Coral color */
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
 }
 
-/* Style input fields */
-input[type="text"] {
-  width: 100%;
+/* Input and Textarea Styles */
+input[type="text"],
+textarea {
+  width: calc(100% - 20px); /* Full width minus padding */
   padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  border: 1px solid #ff7f50;
   border-radius: 5px;
-  font-size: 16px;
-  color: #555;
+  color: #333;
+  font-size: 1em;
 }
 
-/* Style buttons */
+textarea {
+  min-height: 100px; /* Set a minimum height for better user experience */
+  resize: vertical; /* Enable vertical resizing */
+}
+.buttons-container {
+  display: flex;
+  justify-content: space-between; /* Evenly space the children */
+  align-items: center; /* Vertically center the children */
+  margin-top: 20px;
+}
+/* Button Style */
 button {
-  background-color: #f39c12; /* Orange color */
+  background-color: #ff7f50; /* Coral color */
   color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 18px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
+  font-size: 1em;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 button:hover {
-  background-color: #d35400; /* Darker orange color on hover */
+  background-color: #e57365; /* Slightly lighter coral on hover */
+  transform: translateY(-2px); /* Subtle lift on hover */
 }
 
-/* Center the buttons */
-p:last-child {
-  text-align: center;
-}
-
-/* Style the container */
-.template-container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+/* Image Style */
 img {
-  max-width: 100%; /* Ensure the image fits within its container */
-  display: block; /* Remove default inline alignment */
-  margin: 10px auto; /* Center the image horizontally with some spacing */
-  border: 1px solid #ccc; /* Add a border for better separation */
-  border-radius: 5px; /* Add rounded corners */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-}
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  color: #555;
-  resize: vertical; /* Allow vertical resizing */
+  max-width: 100%; /* Ensure it fits */
+  margin: 10px 0;
+  border-radius: 5px; /* Round the corners */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
-/* Add focus styles for textarea */
-textarea:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
-}
+/* Router Links */
 .router-link {
-  text-decoration: none;
+  background-color: #ff7f50; /* Consistent color scheme */
   color: #fff;
-  font-size: 18px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-  background-color: #f39c12; /* Orange background color */
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
-  font-size: 18px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
-  display: inline-block;
-  margin-right: 10px;
+  text-decoration: none; /* Remove underlines */
+  font-size: 1em;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
-/* Add hover effect to router links */
 .router-link:hover {
-  background-color: #d35400; /* Darker orange color on hover */
+  background-color: #e57365; /* Lighten on hover */
+  transform: translateY(-2px); /* Lift for visual feedback */
 }
 
+/* Paragraph Styling */
+p {
+  margin-bottom: 10px; /* Add a bit of space below paragraphs */
+}
 </style>

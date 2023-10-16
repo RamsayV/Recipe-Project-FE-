@@ -1,35 +1,58 @@
 <template>
-  <div class="recipe-card">
+  <head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"></head>
+    <div class="recipe-card">
     <h1 class="page-title">Recipe</h1>
     <div class="recipe-details">
       <h1 class="recipe-title">{{ recipes?.recipe?.title }}</h1>
-      <p class="recipe-ingredients">{{ recipes?.recipe?.ingredients }}</p>
-      <p class="recipe-instructions">{{ recipes?.recipe?.instructions }}</p>
+      <div class="recipe-ingredients">
+        <h2>Ingredients:</h2>
+        <ul>
+          <li v-for="(ingredient, index) in splitIngredients" :key="index">
+            {{ ingredient }}
+          </li>
+        </ul>
+      </div>
+      <div class="recipe-instructions">
+        <h2>Instructions:</h2>
+        <ol>
+          <li v-for="(instruction, index) in splitInstructions" :key="index">
+            {{ instruction }}
+          </li>
+        </ol>
+      </div>
       <img class="recipe-image" :src="recipes?.contributor?.recipes[0]?.image" alt="Recipe Image">
       <router-link :to="'/AllContributors/' + recipes?.contributor?._id" class="contributor-link">
         <h1 class="contributor-name">{{ recipes?.contributor?.name }}</h1>
       </router-link>
     </div>
+    <div class="button-container">
     <div v-if="recipes?.recipe?.user === userEmail" class="recipe-actions">
-      <button @click="deleteRecipe" class="btn btn-danger">Delete Recipe</button>
+      <button @click="deleteRecipe" class="common-btn btn-danger">Delete Recipe</button>
       <router-link :to="`/recipe/edit/${id}`" class="edit-link">
-        <button class="btn btn-primary">Edit Recipe</button>
+        <button class="common-btn btn-primary">Edit Recipe</button>
       </router-link>
       <router-link :to="`/AllRecipes/:id/addreview`" class="review-link">
         <button class="btn btn-primary">Review Recipe</button>
       </router-link>
     </div>
+<<<<<<< HEAD
     <div v-if="isLoggedIn">
       <button @click="share">Share Recipe </button>
     </div>
     <!-- <ReviewForm/> -->
+=======
+  </div>
+>>>>>>> 78a87b4 (monday push, all done)
   </div>
 </template>
-
 <script>
 import { useRoute } from 'vue-router';
 import { decodeCredential } from 'vue3-google-login';
+<<<<<<< HEAD
 // import ReviewForm from './ReviewForm.vue'
+=======
+
+>>>>>>> 78a87b4 (monday push, all done)
 export default {
   name: 'SingleRecipe',
   data: () => ({
@@ -39,11 +62,31 @@ export default {
     userName: '',
     userEmail: '',
   }),
+<<<<<<< HEAD
   components: {
     // ReviewForm
   },
 
   mounted() {
+=======
+  computed: {
+    splitInstructions() {
+      const instructions = this.recipes?.recipe?.instructions || '';
+      return instructions.split(/\d+\./).filter(item => item.trim() !== '');
+    },
+    splitIngredients() {
+      const ingredients = this.recipes?.recipe?.ingredients || '';
+      return ingredients.split('\n').filter(item => item.trim() !== '');
+    }
+  },
+  mounted() {
+    if (this.$cookies.isKey('user_session')) {
+      this.isLoggedIn = true;
+      const userData = decodeCredential(this.$cookies.get('user_session'));
+      this.userName = userData.given_name;
+      this.userEmail = userData.email;
+    }
+>>>>>>> 78a87b4 (monday push, all done)
     const route = useRoute();
     if (this.$cookies.isKey('user_session')) {
       this.isLoggedIn = true;
@@ -56,12 +99,17 @@ export default {
       .then((response) => response.json())
       // console.log('something');})
       .then((result) => {
+<<<<<<< HEAD
         this.recipes= result;
         // this.image = result.recipes.image 
         // console.log(result.contributor.recipes[0].image);
         this.id = route.params.id;
         
 
+=======
+        this.recipes = result;
+        this.id = route.params.id;
+>>>>>>> 78a87b4 (monday push, all done)
       })
       .catch((error) => {
         this.error = 'Error fetching data: ' + error;
@@ -83,9 +131,15 @@ export default {
           text: "Checkout this recipe! It's perfect for us.",
           url: '',
           title: 'Recipe Real'
+<<<<<<< HEAD
         })
       } else {
         navigator.clipboard.writeText('url')
+=======
+        });
+      } else {
+        navigator.clipboard.writeText('url');
+>>>>>>> 78a87b4 (monday push, all done)
       }
     }
   }
@@ -93,70 +147,95 @@ export default {
 </script>
 
 <style scoped>
-/* Recipe Card Styles */
+/* General Styles */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif; /* Readable font selection */
+}
+h1 {
+  font-family: 'Poppins', sans-serif;  /* Recommended: Import Google Fonts */
+  font-size: 2.5em;
+  color: #2c3e50;  /* Dark slate color for elegance */
+  font-weight: 600;  /* Semi-bold weight for a modern look */
+  letter-spacing: 1px;  /* Slight spacing between letters */
+  text-transform: uppercase;  /* Capitalizing text for a structured appearance */
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);  /* Subtle shadow for depth */
+}
+
+/* Full Page Recipe Card */
 .recipe-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff;
-  /* Set your desired background color */
+  background-color:  #ffebcd;
   padding: 20px;
+  border-radius: 0; /* Full width means no visible border-radius */
+  margin: 0; /* No margin for full-width */
+  min-height: 100vh; /* Full viewport height */
 }
 
 .page-title {
-  font-size: 28px;
-  color: #ff8c42;
-  /* Set title color */
-  margin-bottom: 20px;
+  color: #e67e22;  /* Giving a distinct color for page title */
+  margin-bottom: 15px;
 }
 
+/* Recipe Details Styling */
 .recipe-details {
-  background-color: #f5f5f5;
-  /* Set recipe details background color */
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Utilize full width */
+  background-color: #fff;
+  border-radius: 10px;
   padding: 20px;
-  text-align: center;
+  text-align: left;
   margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.recipe-title {
-  font-size: 24px;
-  margin-bottom: 10px;
+.recipe-title,
+.contributor-name {
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
 }
 
-.recipe-ingredients {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
+.recipe-ingredients,
 .recipe-instructions {
-  font-size: 16px;
-  margin-bottom: 10px;
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #444;
 }
 
-.recipe-date {
-  font-size: 14px;
-  color: #888;
+.recipe-ingredients ul,
+.recipe-instructions ol {
+  margin-left: 20px;
+  padding-left: 0;
+  color: #555;
 }
 
+/* Contributor Styling */
 .contributor-link {
   text-decoration: none;
 }
 
 .contributor-name {
-  font-size: 18px;
   color: #ff8c42;
-  /* Set contributor name color */
+}
+
+/* Button Styling */
+.button-container {
+  display: flex;
+  justify-content: center; /* Ensure everything is centered */
+  align-items: center;
+  width: 100%;
 }
 
 .recipe-actions {
   display: flex;
-  justify-content: center;
+  justify-content: space-between; /* Evenly space-out buttons */
   align-items: center;
+  width: 50%; /* Adjust width to your preference */
 }
 
-.btn {
+.common-btn {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -164,30 +243,38 @@ export default {
   font-weight: bold;
   text-transform: uppercase;
   margin: 0 10px;
+  
 }
 
 .btn-primary {
-  background-color: #ff8c42;
-  /* Set primary button background color */
+  background-color: #e63400;
   color: #fff;
-  /* Set primary button text color */
+}
+
+.btn-primary:hover {
+  background-color: #ff6b0f;
 }
 
 .btn-danger {
-  background-color: #ff6b0f;
-  /* Set danger button background color */
+  background-color: #e63400;
   color: #fff;
-  /* Set danger button text color */
 }
 
+.btn-danger:hover {
+  background-color: #c62900;
+}
+
+/* Image Styling */
 .recipe-image {
   max-width: 100%;
-  /* Ensure the image fits within its container */
-  border-radius: 5px;
-  /* Add rounded corners */
+  border-radius: 10px;
   margin-top: 20px;
+<<<<<<< HEAD
   /* Add spacing above the image */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   /* Add a subtle shadow */
+=======
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+>>>>>>> 78a87b4 (monday push, all done)
 }
 </style>

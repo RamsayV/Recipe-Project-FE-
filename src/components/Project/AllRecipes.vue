@@ -2,20 +2,16 @@
   <div class="recipes-container">
     <h1 class="page-title">Delicious Recipes</h1>
     <div class="filter-container">
-      <label for="cuisinefilter">Filter By Cuisine</label>
-      <select id="cuisinefilter" v-model="selectedcuisine" class="cuisine-filter">
+      <label for="cuisinefilter" class="filter-label">Filter By Cuisine</label>
+      <select id="cuisinefilter" v-model="selectedcuisine" class="filter-select">
         <option value="">All Cuisines</option>
         <option v-for="cuisine in uniquecuisines" :key="cuisine" :value="cuisine">{{ cuisine }}</option>
       </select>
     </div>
     <div class="recipe-list">
-      <div v-for="recipe in filteredrecipes" :key="recipe.id" class="recipe-card">
-        <router-link :to="{ path: `/AllRecipes/${recipe._id}`, params: { id: recipe._id }}">
-          <div class="recipe-image">
-            <img :src="recipe.image" alt="Recipe Image" />
-          </div>
+      <div v-for="recipe in filteredrecipes" :key="recipe.id" class="recipe-item">
+        <router-link :to="'/AllRecipes/' + recipe._id" class="recipe-link">
           <h2 class="recipe-title">{{ recipe.title }}</h2>
-          <p class="recipe-cuisine">{{ recipe.cuisine }}</p>
         </router-link>
       </div>
     </div>
@@ -28,7 +24,7 @@ export default {
   data: () => ({
     error: '',
     recipes: [],
-    selectedcuisine: ''
+    selectedcuisine: '',
   }),
   mounted() {
     fetch('http://localhost:4000/Allrecipes')
@@ -42,83 +38,89 @@ export default {
   },
   computed: {
     uniquecuisines() {
-      return Array.from(new Set(this.recipes.map(recipe => recipe.cuisine)))
+      return Array.from(new Set(this.recipes.map(recipe => recipe.cuisine)));
     },
     filteredrecipes() {
       if (this.selectedcuisine) {
-        return this.recipes.filter(recipe => recipe.cuisine === this.selectedcuisine)
+        return this.recipes.filter(recipe => recipe.cuisine === this.selectedcuisine);
       } else {
-        return this.recipes
+        return this.recipes;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-/* Recipes Page Styles */
+/* Page Styles */
 .recipes-container {
   text-align: center;
   padding: 20px;
-  background-color: #f8f8f8;
+  background-color: #ffebcd; /* Creamy background color */
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
 }
 
 .page-title {
-  font-size: 36px;
-  color: #ff8c42;
+  font-size: 2.5em;
+  color: #ff7f50; /* Coral color */
   margin-bottom: 20px;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Filter Styles */
 .filter-container {
   margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.cuisine-filter {
-  font-size: 16px;
-  padding: 8px;
-  border: 1px solid #ddd;
+.filter-label {
+  font-size: 1.25em;
+  color: #ff7f50; /* Maintain color consistency */
+  margin-right: 10px;
+}
+
+.filter-select {
+  font-size: 1em;
+  background-color: #ffffff;
+  border: 1px solid #ff7f50; /* Border color consistent with label */
   border-radius: 5px;
-  background-color: #fff;
+  padding: 8px 12px;
+  color: #333;
+  cursor: pointer;
 }
 
+/* Recipes List Styles */
 .recipe-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   grid-gap: 20px;
+  margin-top: 20px;
 }
 
-.recipe-card {
-  background-color: #fff;
+.recipe-item {
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  transition: transform 0.2s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.recipe-card:hover {
-  transform: translateY(-5px);
+.recipe-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Recipe Link Styles */
 .recipe-link {
   text-decoration: none;
-  color: #333;
-}
-
-.recipe-image img {
-  width: 100%;
-  max-height: 200px;
-  object-fit: cover;
-  border-radius: 5px;
 }
 
 .recipe-title {
-  font-size: 24px;
-  margin-top: 10px;
-}
-
-.recipe-cuisine {
-  font-size: 16px;
-  color: #888;
-  margin-top: 8px;
+  font-size: 1.75em;
+  color: #ff7f50; /* Coral color for titles */
+  margin: 0;
 }
 </style>

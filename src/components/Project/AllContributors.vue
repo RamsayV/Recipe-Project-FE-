@@ -32,55 +32,58 @@
   </script>
   
   <style scoped>
-  /* All Contributors Page Styles */
-  .all-contributors {
-    text-align: center;
-    padding: 20px;
-    background-color: #fff; /* Set your desired background color */
-  }
-  
-  .page-title {
-    font-size: 28px;
-    color: #ff8c42; /* Set title color */
-    margin-bottom: 20px;
-  }
-  
-  .contributor-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid layout */
-    grid-gap: 20px;
-    justify-items: center;
-  }
-  
-  .contributor-item {
-    background-color: #f5f5f5; /* Set contributor item background color */
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.2s;
-  }
-  
-  .contributor-item:hover {
-    transform: translateY(-5px); /* Add a slight hover effect */
-  }
-  
-  .contributor-link {
-    text-decoration: none;
-  }
-  
-  .contributor-name {
-    font-size: 20px;
-    color: #ff8c42; /* Set contributor name color */
-    margin-top: 10px;
-  }
-  
-  /* Styles that consider NavVue */
-  .mainView {
-    background-color: #fff; /* Set background color of the main navigation */
-    padding: 10px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
-  </style>
+/* All Contributors Page Styles */
+.all-contributors {
+  text-align: center;
+  padding: 20px;
+  background-color: #ffebcd; /* Adopted creamy background color */
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 2.5em;
+  color: #ff7f50; /* Adopted coral color */
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.contributor-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 20px;
+  margin-top: 20px;
+}
+
+.contributor-item {
+  background-color: #ffffff; 
+  border-radius: 10px; 
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); 
+  padding: 20px;
+  transition: transform 0.3s, box-shadow 0.3s; /* Slightly faster transition */
+}
+
+.contributor-item:hover {
+  transform: scale(1.05); 
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
+}
+
+.contributor-link {
+  text-decoration: none;
+}
+
+.contributor-name {
+  font-size: 1.75em;
+  color: #ff7f50; /* Maintained coral color for names */
+  margin: 0; /* Overriding margin */
+}
+
+/* If the .mainView class is utilized within this component, align styling aesthetic */
+.mainView {
+  background-color: #ffebcd; /* Same background color */
+  padding: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+</style>

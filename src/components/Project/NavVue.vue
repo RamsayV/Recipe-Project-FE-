@@ -62,7 +62,7 @@ export default {
   }
 
 </script>
-<style>
+<style scoped>
 .mainView {
   display: flex;
   justify-content: space-around;
@@ -73,9 +73,8 @@ export default {
 }
 
 .nav-link {
-  background-color: #ff8c42;
   /* Set your desired background color for links */
-  color: white;
+  color: rgb(97, 90, 90);
   /* Set the text color for links */
   padding: 10px 20px;
   border: none;
@@ -86,9 +85,12 @@ export default {
   text-decoration: none;
 }
 
-.nav-link:hover {
-  background-color: #ff6b0f;
-  /* Set the hover background color for links */
-}
 
-/* Add more styles as needed */</style>
+#nav-component {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; /* Ensure it's above other page content */
+}
+</style>
