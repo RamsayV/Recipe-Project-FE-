@@ -31,28 +31,13 @@
       <router-link :to="`/recipe/edit/${id}`" class="edit-link">
         <button class="common-btn btn-primary">Edit Recipe</button>
       </router-link>
-      <router-link :to="`/AllRecipes/:id/addreview`" class="review-link">
-        <button class="btn btn-primary">Review Recipe</button>
-      </router-link>
     </div>
-<<<<<<< HEAD
-    <div v-if="isLoggedIn">
-      <button @click="share">Share Recipe </button>
-    </div>
-    <!-- <ReviewForm/> -->
-=======
   </div>
->>>>>>> 78a87b4 (monday push, all done)
   </div>
 </template>
 <script>
 import { useRoute } from 'vue-router';
 import { decodeCredential } from 'vue3-google-login';
-<<<<<<< HEAD
-// import ReviewForm from './ReviewForm.vue'
-=======
-
->>>>>>> 78a87b4 (monday push, all done)
 export default {
   name: 'SingleRecipe',
   data: () => ({
@@ -62,23 +47,6 @@ export default {
     userName: '',
     userEmail: '',
   }),
-<<<<<<< HEAD
-  components: {
-    // ReviewForm
-  },
-
-  mounted() {
-=======
-  computed: {
-    splitInstructions() {
-      const instructions = this.recipes?.recipe?.instructions || '';
-      return instructions.split(/\d+\./).filter(item => item.trim() !== '');
-    },
-    splitIngredients() {
-      const ingredients = this.recipes?.recipe?.ingredients || '';
-      return ingredients.split('\n').filter(item => item.trim() !== '');
-    }
-  },
   mounted() {
     if (this.$cookies.isKey('user_session')) {
       this.isLoggedIn = true;
@@ -86,30 +54,14 @@ export default {
       this.userName = userData.given_name;
       this.userEmail = userData.email;
     }
->>>>>>> 78a87b4 (monday push, all done)
-    const route = useRoute();
-    if (this.$cookies.isKey('user_session')) {
-      this.isLoggedIn = true;
-      const userData = decodeCredential(this.$cookies.get('user_session'));
-      this.userName = userData.given_name;
-      this.userEmail = userData.email
-    }
+    const route = useRoute ()
     console.log(route.params.id);
-    fetch(`http://localhost:4000/AllRecipes/${route.params.id}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
       .then((response) => response.json())
       // console.log('something');})
       .then((result) => {
-<<<<<<< HEAD
-        this.recipes= result;
-        // this.image = result.recipes.image 
-        // console.log(result.contributor.recipes[0].image);
-        this.id = route.params.id;
-        
-
-=======
         this.recipes = result;
         this.id = route.params.id;
->>>>>>> 78a87b4 (monday push, all done)
       })
       .catch((error) => {
         this.error = 'Error fetching data: ' + error;
@@ -117,6 +69,7 @@ export default {
       });
   },
   methods: {
+    
     deleteRecipe: function () {
       fetch(`http://localhost:4000/AllRecipes/${this.id}`, {
         method: "DELETE"
@@ -131,19 +84,24 @@ export default {
           text: "Checkout this recipe! It's perfect for us.",
           url: '',
           title: 'Recipe Real'
-<<<<<<< HEAD
-        })
-      } else {
-        navigator.clipboard.writeText('url')
-=======
         });
       } else {
         navigator.clipboard.writeText('url');
->>>>>>> 78a87b4 (monday push, all done)
       }
+    },
+    computed: {
+    splitInstructions() {
+      const instructions = this.recipes?.recipe?.instructions || '';
+      return instructions.split(/\d+\./).filter(item => item.trim() !== '');
+    },
+    splitIngredients() {
+      const ingredients = this.recipes?.recipe?.ingredients || '';
+      return ingredients.split('\n').filter(item => item.trim() !== '');
     }
   }
 }
+}
+
 </script>
 
 <style scoped>
@@ -269,12 +227,8 @@ h1 {
   max-width: 100%;
   border-radius: 10px;
   margin-top: 20px;
-<<<<<<< HEAD
-  /* Add spacing above the image */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  /* Add a subtle shadow */
-=======
+
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
->>>>>>> 78a87b4 (monday push, all done)
+
 }
 </style>

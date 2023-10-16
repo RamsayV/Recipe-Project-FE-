@@ -29,7 +29,7 @@
     }),
     mounted() {
       const route = useRoute();
-      fetch(`http://localhost:4000/AllContributors/${route.params.id}`)
+      fetch(`${process.env.VUE_APP_BACKEND_API}/AllContributors/${route.params.id}`)
         .then((response) => response.json())
         .then((result) => {
           this.data = result;

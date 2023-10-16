@@ -31,7 +31,7 @@
     }),
     mounted() {
       const route = useRoute()
-      fetch(`http://localhost:4000/AllRecipes/${route.params.id}`)
+      fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
         .then((response) => response.json())
         .then((result) => {
           this.recipe = result
@@ -48,7 +48,7 @@
     },
     methods: {
       editRecipe: function () {
-        fetch(`http://localhost:4000/AllRecipes/${this.recipe.id}`, {
+        fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${this.recipe.id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json"

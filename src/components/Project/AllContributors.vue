@@ -19,7 +19,7 @@
       contributors: [],
     }),
     mounted() {
-      fetch('http://localhost:4000/AllContributors')
+      fetch(`${process.env.VUE_APP_BACKEND_API}/AllContributors`)
         .then((response) => response.json())
         .then((result) => {
           this.contributors = result;
