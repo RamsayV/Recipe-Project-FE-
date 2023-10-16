@@ -20,7 +20,7 @@
             </li>
           </ol>
         </div>
-        <img class="recipe-image" :src="recipes?.contributor?.recipes[0]?.image" alt="Recipe Image">
+        <img class="recipe-image" :src="recipes?.recipe?.image" alt="Recipe Image">
         <router-link :to="'/AllContributors/' + recipes?.contributor?._id" class="contributor-link">
           <h1 class="contributor-name">{{ recipes?.contributor?.name }}</h1>
         </router-link>
