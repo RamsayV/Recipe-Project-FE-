@@ -75,7 +75,7 @@ export default {
       this.userEmail = userData.email
     }
     console.log(route.params.id);
-    fetch(`${VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
       .then((response) => response.json())
       // console.log('something');})
       .then((result) => {
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     deleteRecipe: function () {
-      fetch(`${VUE_APP_BACKEND_API}/AllRecipes/${this.id}`, {
+      fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${this.id}`, {
         method: "DELETE"
       })
         .then(() => {

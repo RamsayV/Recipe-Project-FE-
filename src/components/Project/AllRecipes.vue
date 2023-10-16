@@ -27,7 +27,7 @@ export default {
     selectedcuisine: '',
   }),
   mounted() {
-    fetch(`http://localhost:4000/Allrecipes`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/Allrecipes`)
       .then((response) => response.json())
       .then((result) => {
         this.recipes = result;

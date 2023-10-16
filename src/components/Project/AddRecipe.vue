@@ -49,7 +49,7 @@ export default {
 
     console.log(`New recipe ${this.recipe.cuisine} - ${this.recipe.title} - ${this.recipe.ingredients} - ${this.recipe.instructions} - ${this.recipe.date} - ${this.recipe.contributor} - ${this.recipe.imageURL}`);
     
-    fetch(`http://localhost:4000/AddRecipe`, {
+    fetch(`${process.env.VUE_APP_BACKEND_API}/AddRecipe`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
