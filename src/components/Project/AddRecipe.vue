@@ -1,5 +1,4 @@
 <template>
-  <head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"></head>
   <div class="template-container">
     <h1>Create A Recipe!</h1>
     <p><input v-model="recipe.cuisine" type="text" placeholder="Recipe cuisine"><br></p>

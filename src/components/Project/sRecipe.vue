@@ -31,9 +31,6 @@
         <router-link :to="`/recipe/edit/${id}`" class="edit-link">
           <button class="common-btn btn-primary">Edit Recipe</button>
         </router-link>
-        <router-link :to="`/AllRecipes/:id/addreview`" class="review-link">
-          <button class="btn btn-primary">Review Recipe</button>
-        </router-link>
       </div>
     </div>
 </div>
