@@ -3,7 +3,7 @@
       <div class="recipe-card">
       <h1 class="page-title">Recipe</h1>
       <div class="recipe-details">
-        <h1 class="recipe-title">{{ recipes?.recipe?.title }}</h1>
+        <h1 class="recipe-title" v-if="recipes && recipes.recipe">{{ recipes.recipe.title }}</h1>
         <div class="recipe-ingredients">
           <h2>Ingredients:</h2>
           <ul>
@@ -13,7 +13,7 @@
           </ul>
         </div>
         <div class="recipe-instructions">
-          <h2>Instructions:</h2>
+          <h2>Method:</h2>
           <ol>
             <li v-for="(instruction, index) in splitInstructions" :key="index">
               {{ instruction }}
@@ -58,12 +58,6 @@ export default {
     }
   },
   mounted() {
-    if (this.$cookies.isKey('user_session')) {
-      this.isLoggedIn = true;
-      const userData = decodeCredential(this.$cookies.get('user_session'));
-      this.userName = userData.given_name;
-      this.userEmail = userData.email;
-    }
     const route = useRoute();
     if (this.$cookies.isKey('user_session')) {
       this.isLoggedIn = true;
@@ -72,9 +66,8 @@ export default {
       this.userEmail = userData.email
     }
     console.log(route.params.id);
-    fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/${route.params.id}`)
       .then((response) => response.json())
-      // console.log('something');})
       .then((result) => {
         this.recipes = result;
         this.id = route.params.id;

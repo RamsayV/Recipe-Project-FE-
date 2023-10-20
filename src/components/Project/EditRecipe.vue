@@ -1,77 +1,83 @@
 <template>
-  <head><input v-model="recipe.date" type="date" name="date" placeholder="Date"></head>
-    <div class="template-container">
-      <h1>Edit a Recipe</h1>
-      <p><input v-model="recipe.title" type="text" placeholder="Recipe Title"><br></p>
-      <p><textarea v-model="recipe.ingredients" placeholder="Ingredients"></textarea><br></p>
+  <div class="template-container">
+    <h1>Edit a Recipe</h1>
+    <p><input v-model="recipe.title" type="text" placeholder="Recipe Title"><br></p>
+    <p><textarea v-model="recipe.ingredients" placeholder="Ingredients"></textarea><br></p>
     <p><textarea v-model="recipe.instructions" placeholder="Method"></textarea><br></p>
-      <p><input v-model="recipe.date" type="text" name="date" placeholder="Date"></p>
-      <p><input v-model="recipe.contributor" type="text" placeholder="User Profile" disabled><br></p>
-      <div class="buttons-container">
-    <button v-on:click="editRecipe">Update Recipe!</button>
-    <router-link :to="'/AllRecipes'" class="router-link">Show All Recipes</router-link>
-</div>
-</div>
-  </template>
+    <p><input v-model="recipe.date" type="text" name="date" placeholder="Date"></p>
+    <p><input v-model="recipe.contributor" type="text" placeholder="User Profile" disabled><br></p>
+    <div class="buttons-container">
+      <button v-on:click="editRecipe">Update Recipe!</button>
+      <router-link :to="'/AllRecipes'" class="router-link">Show All Recipes</router-link>
+    </div>
+  </div>
+</template>
   
-  <script>
-  import { useRoute } from 'vue-router'
-  export default {
-    name: 'EditRecipe',
-    data: () => ({
-      error: '',
-      recipe: {
-        contributor: '',
-        title: '',
-        ingredients: '',
-        instructions: '',
-        date: '',
-        id: ''
-      }
-    }),
-    mounted() {
-      const route = useRoute()
-      fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
-        .then((response) => response.json())
-        .then((result) => {
-          this.recipe = result
-          this.recipe.title = result.recipe.title;
-          this.recipe.date = result.recipe.date
-          this.recipe.ingredients = result.recipe.ingredients
-          this.recipe.instructions = result.recipe.ingredients
-          this.recipe.contributor = result.contributor.name
-          this.recipe.id = route.params.id
-        })
-        .catch((error) => {
-          this.error = 'Error fetching data: ' + error;
-        });
+<script>
+import { useRoute } from 'vue-router'
+export default {
+  name: 'EditRecipe',
+  data: () => ({
+    error: '',
+    recipe: {
+      contributor: '',
+      title: '',
+      ingredients: '',
+      instructions: '',
+      date: '',
     },
-    methods: {
-      editRecipe: function () {
-        fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${this.recipe.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            title: this.recipe.title,
-            ingredients: this.recipe.ingredients,
-            instructions: this.recipe.instructions,
-            date: this.recipe.date
-          })
+    id: ''
+  }),
+  
+  mounted() {
+    const route = useRoute()
+    console.log("Route params:", route.params);
+    fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log("Result consolelog:", result);
+      this.recipe = result
+      this.recipe.title = result.recipe.title;
+      this.recipe.date = result.recipe.date
+      this.recipe.ingredients = result.recipe.ingredients
+      this.recipe.instructions = result.recipe.instructions
+      this.recipe.contributor = result.contributor.name
+      this.id = result.recipe._id
+      console.log(this.id);
+    })
+    .catch((error) => {
+      this.error = 'Error fetching data: ' + error;
+    });
+  },
+  methods: {
+    editRecipe: function () {
+      console.log("Updating recipe with ID:", this.id);
+      fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${this.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: this.recipe.title,
+          ingredients: this.recipe.ingredients,
+          instructions: this.recipe.instructions,
+          date: this.recipe.date
         })
-          .then(() => {
-            this.$router.replace({ path: `/AllRecipes` })
-          })
-      }
+      })
+        .then(() => {
+          this.$router.replace({ path: `/AllRecipes` })
+        })
     }
   }
-  </script>
+}
+</script>
   
-  <style scoped>
-  h1, p {
+<style scoped>
+h1,
+p {
   margin-bottom: 20px;
 }
+
 body {
   background-color: #e1ab47;
   margin: 0;
@@ -112,7 +118,8 @@ input[type="text"] {
   margin-top: 20px;
 }
 
-button, .router-link {
+button,
+.router-link {
   background-color: #ff7f50;
   color: #fff;
   padding: 10px 20px;
@@ -123,7 +130,8 @@ button, .router-link {
   transition: background-color 0.3s, transform 0.3s;
 }
 
-button:hover, .router-link:hover {
+button:hover,
+.router-link:hover {
   background-color: #e57365;
   transform: translateY(-2px);
 }
@@ -139,12 +147,13 @@ button:disabled {
 
 .router-link {
   text-decoration: none;
-  display: inline-block;  /* Ensures padding and dimensions are respected */
+  display: inline-block;
 }
 
 p {
   margin-bottom: 10px;
 }
+
 textarea {
   width: calc(100% - 20px);
   padding: 10px;
@@ -155,6 +164,7 @@ textarea {
   font-size: 1em;
   resize: vertical;
 }
+
 button:active {
   transform: translateY(1px);
 }
@@ -162,5 +172,5 @@ button:active {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
-}
-</style>
+}</style>
+
