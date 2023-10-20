@@ -66,7 +66,7 @@ export default {
       this.userEmail = userData.email
     }
     console.log(route.params.id);
-    fetch(`${process.env.VUE_APP_BACKEND_API}/${route.params.id}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/AllRecipes/${route.params.id}`)
       .then((response) => response.json())
       .then((result) => {
         this.recipes = result;
