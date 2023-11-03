@@ -4,12 +4,12 @@
             <h1>Recipe Realm</h1>
             <p>Find, create, and share your favorite recipes with our community.</p>
             <div class="nav-buttons">
-                <button><router-link :to="'/login'">Login</router-link></button>
-                <button><router-link :to="'/AllRecipes'">Recipes</router-link></button>
-                <button><router-link :to="'/AllContributors'">User Profiles</router-link></button>
-                <button><router-link :to="'/addrecipe'">Add Recipe</router-link></button>
-                <button><router-link :to="'/recipecreator'">What's in your Fridge?</router-link></button>
-                <button><router-link :to="'/MealPlanApi'">Customize Your Weekly Meal Plans!</router-link></button>
+                <button ><router-link class="btn" :to="'/login'">Login</router-link></button>
+                <button><router-link class="btn" :to="'/AllRecipes'">Recipes</router-link></button>
+                <button><router-link class="btn" :to="'/AllContributors'">User Profiles</router-link></button>
+                <button><router-link class="btn" :to="'/addrecipe'">Add Recipe</router-link></button>
+                <button><router-link class="btn" :to="'/recipecreator'">What's in your Fridge?</router-link></button>
+                <button><router-link class="btn" :to="'/MealPlanApi'">Customize Your Weekly Meal Plans!</router-link></button>
             </div>
         </div>
     </div>
@@ -89,5 +89,10 @@ p {
 
 .nav-buttons button router-link:hover {
     color: #f0e5d8;  /* Lighter shade for hover */
+}
+
+.btn{
+    color: white;
+    text-decoration: none;
 }
   </style>
